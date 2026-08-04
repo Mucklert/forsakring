@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Barnförsäkringskollen — mockup</title>
+<link rel="icon" type="image/svg+xml" href="favicon-monogram.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,500,0,0;9..144,600,0,0;9..144,700,0,0&family=Karla:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+ <div class="site-header__row">
+  <a href="#/" class="brand-logo" aria-label="Barnförsäkringskollen, till startsidan">
+    <img src="logo-a-wordmark.svg" alt="Barnförsäkringskollen">
+  </a>
+  <nav class="top-nav" id="top-nav">
+    <a href="#/" data-route="/" data-i18n="home"><span class="nav-label">Hem</span></a>
+    <a href="#/inventory" data-route="/inventory" data-i18n="inventory"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.4" y1="15.4" x2="21" y2="21"/></svg></span><span class="nav-label">Hitta försäkringar</span></a>
+    <a href="#/coverage-matrix" data-route="/coverage-matrix" data-i18n="matrix"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l7 3v5.5c0 4.5-3 7.5-7 8.5-4-1-7-4-7-8.5V6.5l7-3Z"/><path d="M9 12.2l2.2 2.2L15.5 10"/></svg></span><span class="nav-label">Min försäkring</span></a>
+    <a href="#/claim-process" data-route="/claim-process" data-i18n="claimProcess"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 3.5h6a1 1 0 0 1 1 1V6H8V4.5a1 1 0 0 1 1-1Z"/><path d="M8.5 11.5l2 2 4.5-4.5"/><line x1="8.5" y1="17" x2="15.5" y2="17"/></svg></span><span class="nav-label">Anmälan</span></a>
+    <a href="#/evidence" data-route="/evidence" data-i18n="evidence"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 0 1 2-2h1.2l.9-1.5A1 1 0 0 1 9 4h6a1 1 0 0 1 .9.5L16.8 6H18a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Z"/><circle cx="12" cy="13" r="3.2"/></svg></span><span class="nav-label">Underlag</span></a>
+    <a href="#/deadlines" data-route="/deadlines" data-i18n="deadlines" class="deadline-link"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 8.5V13l3 2"/><path d="M9.5 2.5h5"/></svg></span><span class="nav-label">Tidsgränser</span></a>
+    <a href="#/templates" data-route="/templates" data-i18n="templates"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M4 7l8 6 8-6"/></svg></span><span class="nav-label">Mallar</span></a>
+  </nav>
+  <div class="lang-toggle" id="lang-toggle">
+    <button type="button" data-locale="sv" class="active">SV</button>
+    <button type="button" data-locale="en">EN</button>
+  </div>
+ </div>
+  <svg class="header-wave" viewBox="0 0 1440 32" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,16 C 220,32 380,0 600,12 C 860,26 1040,2 1440,18 L1440,32 L0,32 Z" style="fill:var(--paper)"/>
+  </svg>
+</header>
+
+<main id="app" role="main"></main>
+
+<footer class="site-footer">
+  <a href="#/om-oss" class="footer-link" id="footer-about-link">Om oss</a>
+  <p id="footer-notice">
+    Mockup — inget innehåll här är publicerat eller granskat. Barnförsäkringskollen samlar inga
+    konton, ingen hälsodata och inget om ditt barn.
+  </p>
+</footer>
+
+<script src="content-data.js"></script>
+<script src="content-data.en.js"></script>
+<script src="matrix-data.js"></script>
+<script src="cba-data.js"></script>
+<script src="markdown.js"></script>
+<script src="icons.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

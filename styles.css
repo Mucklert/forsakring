@@ -1,0 +1,849 @@
+:root {
+  /* brand ink — from brand/logo-*.svg, unchanged */
+  --ink: #16302b;
+  --ink-soft: #3d534d;
+  --sage: #5c7169;
+
+  /* warm paper background — a deeper, more textured linen than a flat pastel cream */
+  --paper: #f2e8d6;
+  --card: #fffcf5;
+  --card-border: #e4d6b8;
+  --line: #ddd0ac;
+
+  /* the one deliberately unexpected accent: an ochre/mustard, not another soft mint or sage */
+  --ochre: #bd7f2c;
+  --ochre-deep: #8f5f1e;
+  --ochre-bg: #f2e2c4;
+
+  /* deadlines keep their own separate, more alarmed color — never confused with the accent above */
+  --rust: #a8462b;
+  --rust-bg: #f2ddcd;
+
+  --radius-pill: 999px;
+  --radius-sm: 7px;
+  --radius-card: 10px;
+  --radius-banner: 5px;
+
+  --font-heading: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Karla", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden; /* the full-bleed deadline band below intentionally exceeds 100% width */
+}
+
+a { color: inherit; }
+
+.inline-link {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--ochre);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+  font-weight: 600;
+}
+.inline-link:hover { text-decoration-color: var(--ink); }
+
+/* ---------- header ---------- */
+/* A quiet nod to pantamera.nu's icon-led nav and organic wave divider between
+   header and page — a plain-colored, single-stroke version of the same idea,
+   not its playful palette or mascot energy, which doesn't fit this subject. */
+
+.site-header {
+  background: var(--card);
+  position: sticky;
+  top: 0;
+  /* No other z-index in this file yet -- 100 just needs to clear ordinary page content
+     as the header stays pinned through scroll. */
+  z-index: 100;
+}
+
+.site-header__row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 24px;
+  padding: 20px clamp(20px, 5vw, 56px) 14px;
+}
+
+.header-wave {
+  display: block;
+  width: 100%;
+  height: 20px;
+}
+
+.brand-logo { height: 40px; display: block; justify-self: start; }
+.brand-logo img { height: 100%; display: block; }
+
+.top-nav {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-self: center;
+  min-width: 0; /* let the grid track shrink below the nav's max-content so it wraps
+                   internally instead of overflowing at tablet-ish widths */
+}
+
+.top-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 4px 0;
+  text-decoration: none;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+}
+.top-nav a:hover { color: var(--ink); border-bottom-color: var(--line); }
+.top-nav a.active { color: var(--ink); border-bottom-color: var(--ochre); }
+.top-nav a.deadline-link { color: var(--rust); }
+.top-nav a.deadline-link:hover { color: var(--rust); border-bottom-color: var(--rust); }
+.top-nav a.deadline-link.active { color: var(--rust); border-bottom-color: var(--rust); }
+
+.nav-icon {
+  display: inline-flex;
+  flex: none;
+}
+.nav-icon svg { width: 17px; height: 17px; display: block; }
+.top-nav a .nav-icon { opacity: 0.75; }
+.top-nav a:hover .nav-icon, .top-nav a.active .nav-icon { opacity: 1; }
+
+.lang-toggle {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-self: end;
+}
+.lang-toggle button {
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  padding: 6px 11px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--card-border);
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.lang-toggle button.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+.lang-toggle button:hover:not(.active) { border-color: var(--ochre); color: var(--ink); }
+
+/* <=560px: the 3-col grid can't hold logo + full nav + toggle side by side at this width --
+   revert to the pre-Task-37 flex-wrap layout so items wrap onto their own lines instead of
+   being squeezed by the grid's 1fr side columns. */
+@media (max-width: 560px) {
+  .site-header__row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+}
+
+.locale-fallback-note {
+  background: var(--ochre-bg);
+  border: 1px solid var(--ochre);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--ink);
+  margin: 0 0 18px;
+}
+
+/* ---------- layout ---------- */
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 8px clamp(20px, 5vw, 56px) 96px;
+}
+
+footer.site-footer {
+  text-align: center;
+  font-size: 13px;
+  color: var(--sage);
+  padding: 28px 20px 40px;
+  border-top: 1px solid var(--line);
+}
+footer.site-footer .footer-link {
+  display: inline-block;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-decoration: underline;
+  text-decoration-color: var(--card-border);
+  text-underline-offset: 2px;
+  margin-bottom: 10px;
+}
+footer.site-footer .footer-link:hover { color: var(--ink); text-decoration-color: var(--ochre); }
+footer.site-footer p { margin: 0; }
+
+/* ---------- typography ---------- */
+
+/* Task 39: Fraunces' WONK axis swaps in quirky alternate letterforms (most visibly on J/j) by
+   default. The Google Fonts <link> in index.html now requests WONK=0 for every weight, so this
+   is belt-and-suspenders only -- kept as one shared rule covering every selector below that sets
+   font-family: var(--font-heading), in case a browser ever falls back to a cached/different
+   Fraunces instance that still defaults to the wonkier form. Do not remove individually as
+   headings are added; extend this selector list instead. */
+h1.page-title,
+main h3,
+main h4,
+.primary-cta__text h2,
+.home-section-heading,
+.benefit-group__head h4,
+.benefit-row__head h4,
+.md-table thead th,
+.calc-month__title {
+  font-variation-settings: "WONK" 0;
+}
+
+h1.page-title {
+  font-family: var(--font-heading);
+  font-size: clamp(30px, 4.4vw, 44px);
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  line-height: 1.14;
+  margin: 20px 0 18px;
+}
+
+main h3 {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 600;
+  margin: 34px 0 10px;
+}
+main h4 {
+  font-family: var(--font-heading);
+  font-size: 19px;
+  font-weight: 600;
+  margin: 26px 0 8px;
+}
+main p { font-size: 16.5px; line-height: 1.62; margin: 0 0 14px; color: var(--ink-soft); }
+main p strong { color: var(--ink); }
+main ul { margin: 0 0 16px; padding-left: 22px; }
+main li { font-size: 16.5px; line-height: 1.6; margin-bottom: 10px; color: var(--ink-soft); }
+main li strong { color: var(--ink); }
+main hr { border: none; border-top: 1px solid var(--line); margin: 30px 0; }
+
+.lede {
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0 0 28px;
+}
+
+/* ---------- cards / buttons ---------- */
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-card);
+  padding: clamp(20px, 4vw, 32px);
+  margin-bottom: 20px;
+}
+
+.pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 15.5px;
+  font-weight: 700;
+  padding: 13px 26px;
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+.pill-btn:hover { background: #0d211d; }
+.pill-btn.secondary {
+  background: var(--ochre-bg);
+  color: var(--ink);
+  border-radius: var(--radius-sm);
+}
+.pill-btn.secondary:hover { background: #ecd6a8; }
+.pill-btn.ghost {
+  background: transparent;
+  color: var(--ink-soft);
+  border: 1.5px solid var(--card-border);
+  border-radius: var(--radius-sm);
+}
+.pill-btn.ghost:hover { border-color: var(--sage); color: var(--ink); }
+.pill-btn[disabled] { opacity: 0.4; cursor: default; pointer-events: none; }
+
+/* ---------- home ---------- */
+
+.hero { padding: 8px 0 8px; }
+
+/* Home page primary CTA -- "Vad ert villkor säger", lifted above the regular nav-grid cards
+   per Maximilian's 2026-08-03 review (docs/DECISIONS.md). Sage tint reuses the "covered/positive
+   action" color from the status pills so it reads as the one clearly-marked path forward. */
+.primary-cta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  text-decoration: none;
+  background: #e4ebe4;
+  border: 1.5px solid var(--sage);
+  border-radius: var(--radius-card);
+  padding: clamp(20px, 4vw, 28px) clamp(22px, 5vw, 32px);
+  margin: 4px 0 20px;
+}
+.primary-cta:hover { border-color: var(--ink); }
+.primary-cta .nav-icon {
+  width: 46px;
+  height: 46px;
+  background: #fff;
+  flex: none;
+}
+.primary-cta .nav-icon svg { width: 24px; height: 24px; }
+.primary-cta__text { flex: 1; }
+.primary-cta__text h2 {
+  font-family: var(--font-heading);
+  font-size: 23px;
+  font-weight: 600;
+  margin: 0 0 5px;
+  color: var(--ink);
+}
+.primary-cta__text p { margin: 0; font-size: 15px; color: var(--ink-soft); }
+.primary-cta__arrow { flex: none; font-size: 24px; color: var(--sage); }
+@media (max-width: 560px) {
+  .primary-cta { flex-wrap: wrap; }
+  .primary-cta__arrow { display: none; }
+}
+
+.nav-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 24px 0 10px;
+}
+
+/* Groups Phase 2 / Försäkringskassan cards (sjukpenning-vab, merkostnadsersättning) separately
+   from the private-insurance nav-grid above (Task 33) -- same card styling, just a labeled break. */
+.home-section-heading {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 600;
+  margin: 28px 0 4px;
+  color: var(--ink);
+}
+@media (max-width: 560px) { .nav-grid { grid-template-columns: 1fr; } }
+
+.nav-card {
+  display: block;
+  text-decoration: none;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-card);
+  padding: 20px 22px;
+}
+.nav-card:hover { border-color: var(--ochre); }
+.nav-card .nav-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--ochre-bg);
+  color: var(--ink);
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.nav-card .nav-icon svg { width: 18px; height: 18px; }
+.nav-card h3 { margin: 0 0 6px; font-size: 20px; }
+.nav-card p { margin: 0; font-size: 14.5px; color: var(--ink-soft); }
+
+/* ---------- coverage inventory question flow ---------- */
+
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0 22px;
+}
+.progress-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--card-border);
+  flex: none;
+}
+.progress-dot.done { background: var(--ochre-bg); border: 1px solid var(--ochre); }
+.progress-dot.active { background: var(--ochre); }
+.progress-label { font-size: 13.5px; color: var(--sage); font-weight: 600; margin-left: 6px; }
+
+.question-card { margin-bottom: 0; }
+.question-card h3 { margin-top: 0; font-size: 25px; }
+
+.nav-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.finish-card { background: var(--card); }
+
+/* ---------- templates ---------- */
+
+.template-item { margin-bottom: 26px; }
+.template-quote {
+  position: relative;
+  background: var(--ochre-bg);
+  border: 1px solid var(--ochre);
+  border-radius: var(--radius-sm);
+  padding: 20px 20px 56px;
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  font-family: var(--font-body);
+  color: var(--ink);
+  margin: 12px 0 6px;
+}
+.copy-btn {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 9px 18px;
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+.copy-btn:hover { background: #0d211d; }
+.copy-btn.copied { background: var(--sage); }
+
+/* ---------- per-policy coverage matrix (Task 10) ---------- */
+/* Reuses the existing card/pill-btn language from Task 7b — flat, no shadow, no
+   hover-lift transform — rather than inventing a new component style for this screen. */
+
+.option-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 22px 0 10px;
+}
+.option-grid--list { grid-template-columns: 1fr; }
+@media (max-width: 560px) { .option-grid { grid-template-columns: 1fr; } }
+
+.option-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  text-align: left;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-card);
+  padding: 16px 18px;
+  font-family: var(--font-body);
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+}
+.option-card:hover { border-color: var(--ochre); }
+.option-card__title { font-weight: 700; }
+.option-card__sub { font-weight: 500; font-size: 13px; color: var(--sage); }
+
+.source-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+}
+.source-card__label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: var(--sage);
+  margin-bottom: 6px;
+}
+
+.coverage-count-note {
+  font-size: 13.5px;
+  color: var(--sage);
+  margin: -4px 0 18px;
+}
+
+/* Explains what "Omfattas"/"Gäller" etc. actually mean before the family hits their first
+   pill -- added 2026-08-03 because the two sections use the same word shapes ("gäller"/
+   "omfattas") for opposite-feeling answers (a benefit applying is good news, a limitation
+   applying is bad news) and nothing on the page said so explicitly. */
+.status-legend {
+  font-size: 13.5px;
+  font-style: italic;
+  color: var(--ink-soft);
+  margin: 0 0 16px;
+  max-width: 620px;
+}
+
+.trigger-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 14px;
+}
+.trigger-filter__label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.trigger-filter__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.trigger-filter .pill-btn {
+  padding: 8px 18px;
+  font-size: 14px;
+}
+
+.benefit-group { margin-bottom: 18px; }
+.benefit-group__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.benefit-group__head h4 {
+  font-family: var(--font-heading);
+  font-size: 17.5px;
+  font-weight: 600;
+  margin: 0;
+}
+.rules-count-note {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+.rule-label {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.benefit-row {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-card);
+  padding: 18px 20px;
+  margin-bottom: 14px;
+}
+.benefit-row__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.benefit-row__head h4 {
+  font-family: var(--font-heading);
+  font-size: 17.5px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.villkor-quote {
+  margin: 10px 0 8px;
+  padding: 12px 14px;
+  border-left: 3px solid var(--card-border);
+  font-size: 15px;
+  line-height: 1.55;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+.no-snippet {
+  margin: 10px 0 8px;
+  font-size: 14px;
+  color: var(--sage);
+  font-style: italic;
+}
+.citation-label {
+  font-size: 12.5px;
+  color: var(--sage);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.field-row {
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+.field-label { font-weight: 700; color: var(--ink); }
+
+/* Pipe-table rendering (mdToHtml, Task 35) -- used by the tier-amount tables in
+   content/forsakringskassan/*.md. Plain, source-adjacent styling, no color coding: a
+   table here is reference numbers, not a status signal. */
+.md-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0 20px;
+  font-size: 15px;
+}
+.md-table th, .md-table td {
+  border: 1px solid var(--card-border);
+  padding: 8px 12px;
+  text-align: left;
+}
+.md-table thead th {
+  background: var(--card);
+  font-family: var(--font-heading);
+  font-weight: 600;
+}
+.md-table tbody tr:nth-child(even) { background: rgba(22, 48, 43, 0.03); }
+
+/* Private<->public cross-reference note (Task 35, OPEN_QUESTIONS 8a): a "check," not a
+   "you'll get," styled as a quiet aside rather than another status pill or card, since
+   it isn't itself a sourced clause -- it's a pointer to where the sourced clause lives. */
+.cross-ref-note {
+  margin: 12px 0 4px;
+  padding: 12px 14px;
+  border: 1px dashed var(--card-border);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+}
+.cross-ref-note p {
+  margin: 0 0 6px;
+  font-size: 14.5px;
+  color: var(--ink-soft);
+}
+
+/* Status pills: text label carries the meaning, color is a reinforcement, never the
+   only signal -- so UNCLEAR reads as unclear even without colour vision (principle 6). */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  /* .benefit-row__head is "justify-content: space-between" so a rule-label sibling pushes
+     this to the right edge -- but with no sibling (a single-rule group), space-between has
+     nothing to space *between* and the browser leaves the pill at the flex-start (left)
+     instead, so the same badge appeared in two different places depending on whether the
+     row happened to be part of a multi-rule group. margin-left: auto pins it to the right
+     edge unconditionally, in both cases. */
+  margin-left: auto;
+}
+.status-pill--yes {
+  background: #e4ebe4;
+  border: 1px solid var(--sage);
+  color: var(--ink);
+}
+.status-pill--no {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+}
+.status-pill--optional {
+  background: var(--ochre-bg);
+  border: 1px solid var(--ochre);
+  color: var(--ink);
+}
+.status-pill--unclear {
+  background: var(--ochre-bg);
+  border: 1.5px dashed var(--ochre-deep);
+  color: var(--ink);
+}
+.status-pill--notfound {
+  background: transparent;
+  border: 1.5px dashed var(--line);
+  color: var(--sage);
+}
+
+.confidence-flag {
+  display: inline-block;
+  font-size: 12px;
+  color: var(--ochre-deep);
+  border-bottom: 1px dotted var(--ochre-deep);
+  margin: 8px 0 2px;
+}
+
+.plain-language-gap-note {
+  font-size: 13.5px;
+  color: var(--sage);
+  font-style: italic;
+}
+
+/* ---------- reviewed badge ---------- */
+
+.reviewed-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  margin-bottom: 18px;
+}
+
+/* ---------- misc ---------- */
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--sage);
+  text-decoration: none;
+  margin-bottom: 18px;
+}
+.back-link:hover { color: var(--ink); }
+button.back-link {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* ---------- sjukpenning/VAB calculator (Task 32) ---------- */
+/* Reuses .card/.option-card/.citation-label/.confidence-flag/.plain-language-gap-note from
+   the coverage matrix (Task 10) rather than inventing a parallel set of components. */
+
+.calc-warning {
+  background: var(--ochre-bg);
+  border: 1.5px solid var(--ochre);
+  border-radius: var(--radius-card);
+  padding: 18px 20px;
+  margin: 0 0 26px;
+}
+.calc-warning__title {
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--ochre-deep);
+  margin-bottom: 6px;
+}
+.calc-warning p { margin: 0; color: var(--ink); font-size: 15.5px; }
+
+.calc-input-group { margin-bottom: 22px; }
+.calc-input-group--inline { display: flex; gap: 20px; flex-wrap: wrap; }
+.calc-label {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.calc-input {
+  width: 100%;
+  max-width: 280px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  padding: 12px 14px;
+  border: 1.5px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  color: var(--ink);
+}
+.calc-input:focus { outline: none; border-color: var(--ochre); }
+.calc-input--small { max-width: 160px; }
+.calc-help { font-size: 13px; color: var(--sage); margin: 6px 0 0; }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.cba-info-panel { margin: 10px 0 22px; }
+.cba-info-panel .citation-label { margin: 6px 2px 0; }
+.cba-info-panel .confidence-flag { margin: 4px 2px 0; display: block; }
+
+.calc-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  margin: 0 0 18px;
+}
+.calc-legend__swatch {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  margin-right: 6px;
+  vertical-align: middle;
+  border: 1px solid var(--card-border);
+}
+
+.calc-month {
+  margin-bottom: 18px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.calc-month:last-child { border-bottom: none; }
+.calc-month__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+.calc-month__title { font-family: var(--font-heading); font-weight: 600; font-size: 16px; }
+.calc-month__days { font-size: 12.5px; color: var(--sage); }
+
+.calc-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.calc-bar-label { width: 200px; flex: none; font-size: 13px; color: var(--ink-soft); font-weight: 600; }
+.calc-bar-track {
+  flex: 1;
+  background: var(--paper);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  height: 20px;
+  overflow: hidden;
+}
+.calc-bar-fill { display: block; height: 100%; border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+.calc-bar-fill--vab { background: var(--sage); }
+.calc-bar-fill--sick { background: var(--ochre); }
+.calc-bar-value { width: 110px; flex: none; text-align: right; font-size: 13px; font-weight: 700; color: var(--ink); }
+
+@media (max-width: 560px) {
+  .calc-bar-label { width: 92px; font-size: 11.5px; }
+  .calc-bar-value { width: 84px; font-size: 12px; }
+}
