@@ -70,6 +70,13 @@ a { color: inherit; }
   /* No other z-index in this file yet -- 100 just needs to clear ordinary page content
      as the header stays pinned through scroll. */
   z-index: 100;
+  transition: transform 0.25s ease;
+}
+
+/* Toggled by initHeaderAutoHide() in app.js: slides the whole header off-screen on
+   scroll-down, back in on scroll-up. */
+.site-header--hidden {
+  transform: translateY(-100%);
 }
 
 .site-header__row {
@@ -152,8 +159,30 @@ a { color: inherit; }
   .site-header__row {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     justify-content: space-between;
+    gap: 6px;
+    padding: 12px clamp(16px, 5vw, 32px) 8px;
   }
+  .brand-logo { height: 28px; }
+  /* Single scrollable line instead of wrapping onto several rows -- that's what made the
+     header tall and bulky on phones. */
+  .top-nav {
+    order: 3;
+    flex: 1 1 100%;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 16px;
+    padding: 2px 2px 4px;
+  }
+  .top-nav::-webkit-scrollbar { display: none; }
+  .top-nav a { font-size: 12.5px; gap: 4px; }
+  .nav-icon svg { width: 15px; height: 15px; }
+  .lang-toggle button { padding: 4px 9px; font-size: 11.5px; }
+  .header-wave { height: 12px; }
 }
 
 .locale-fallback-note {

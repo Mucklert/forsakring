@@ -1492,10 +1492,43 @@ function initLangToggle() {
   });
 }
 
+// Hides the header on scroll-down, brings it back on scroll-up. Only kicks in once
+// you've scrolled past the header's own height, so it doesn't flicker right at the top.
+function initHeaderAutoHide() {
+  const header = document.querySelector(".site-header");
+  if (!header) return;
+  let lastY = window.scrollY;
+  let ticking = false;
+
+  function onScroll() {
+    const y = window.scrollY;
+    const scrollingDown = y > lastY;
+    if (scrollingDown && y > header.offsetHeight) {
+      header.classList.add("site-header--hidden");
+    } else {
+      header.classList.remove("site-header--hidden");
+    }
+    lastY = y;
+    ticking = false;
+  }
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        requestAnimationFrame(onScroll);
+        ticking = true;
+      }
+    },
+    { passive: true }
+  );
+}
+
 document.documentElement.lang = locale;
 window.addEventListener("hashchange", route);
 window.addEventListener("DOMContentLoaded", () => {
   initLangToggle();
+  initHeaderAutoHide();
   updateNavChrome();
   route();
 });
