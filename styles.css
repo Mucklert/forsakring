@@ -165,22 +165,30 @@ a { color: inherit; }
     padding: 12px clamp(16px, 5vw, 32px) 8px;
   }
   .brand-logo { height: 28px; }
-  /* Single scrollable line instead of wrapping onto several rows -- that's what made the
-     header tall and bulky on phones. */
+  /* Icon-only, single line, all 7 items visible at once -- no scrolling, no items cut off
+     at the edge. Labels stay in the DOM (visually-hidden, not display:none) so screen
+     readers still get them. */
   .top-nav {
     order: 3;
     flex: 1 1 100%;
     flex-wrap: nowrap;
-    justify-content: flex-start;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    gap: 16px;
-    padding: 2px 2px 4px;
+    justify-content: space-between;
+    gap: 4px;
+    padding: 4px 0 2px;
   }
-  .top-nav::-webkit-scrollbar { display: none; }
-  .top-nav a { font-size: 12.5px; gap: 4px; }
-  .nav-icon svg { width: 15px; height: 15px; }
+  .top-nav a {
+    position: relative;
+    padding: 6px 4px;
+  }
+  .top-nav a .nav-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .nav-icon svg { width: 20px; height: 20px; }
   .lang-toggle button { padding: 4px 9px; font-size: 11.5px; }
   .header-wave { height: 12px; }
 }
